@@ -17,26 +17,26 @@ local DOWNLOAD_LINK = nil
 local function dhradar_GetVersion(contents , size)
 	--Taken from RabidToaster Achievements mod.
 	local split = string.Explode("\n", contents)
-	local version = tonumber(split[ 1 ] or "")
+	local version = tonumber(split[1] or "0")
 
-	if (!version) then
+	if not version then
 		SVN_VERSION = -1
 		return
 	end
 
 	SVN_VERSION = version
 
-	if (split[ 2 ]) then
-		DOWNLOAD_LINK = split[ 2 ]
+	if split[2] then
+		DOWNLOAD_LINK = split[2]
 	end
 end
 http.Fetch("http://depthhudradar.googlecode.com/svn/trunk/data/depthhud_radar.txt", dhradar_GetVersion, function() ErrorNoHalt("Failed to check DHRadar Version") end)
 
 function dhradar_ShowMenu()
 	local DermaPanel = vgui.Create("DFrame")
-	local w,h = 232, 364
+	local w, h = 232, 364
 	local border = 4
-	local W_WIDTH = w - 2 * order
+	local W_WIDTH = w - 2 * border
 
 	DermaPanel:SetPos(ScrW() * 0.5 - w * 0.5 , ScrH() * 0.5 - h * 0.5)
 	DermaPanel:SetSize(w, h)
@@ -133,7 +133,7 @@ function dhradar_ShowMenu()
 	if not (MY_VERSION and SVN_VERSION and (MY_VERSION < SVN_VERSION)) then
 		GeneralTextLabelMessage = GeneralTextLabelMessage .. "Example : To assign radar menu to F6, type in the console :"
 	else
-		GeneralTextLabelMessage = GeneralTextLabelMessage .. "Your version is "..MY_VERSION.." and the updated one is "..SVN_VERSION.." ! You should update !"
+		GeneralTextLabelMessage = GeneralTextLabelMessage .. "Your version is "..MY_VERSION.." and the updated one is "..SVN_VERSION.." not  You should update not "
 	end
 	GeneralTextLabel:SetWrap(true)
 	GeneralTextLabel:SetText(GeneralTextLabelMessage)
@@ -142,7 +142,7 @@ function dhradar_ShowMenu()
 
 	-- DHMENU BUTTON
 	local GeneralCommandLabel = vgui.Create("DTextEntry")
-	if not (MY_VERSION and SVN_VERSION and (MY_VERSION < SVN_VERSION) and DOWNLOAD_LINK) then
+	if not (MY_VERSION and SVN_VERSION and (MY_VERSION < SVN_VERSION)) and DOWNLOAD_LINK then
 		GeneralCommandLabel:SetText("bind \"F6\" \"dhradar_menu\"")
 	else
 		GeneralCommandLabel:SetText(DOWNLOAD_LINK)
@@ -322,12 +322,12 @@ function dhradar_ShowMenu()
 
 
 	--FINISHING THE PANEL
-	PanelList:AddItem(GeneralCategory)	      --CATEGORY GENERAL CREATED
-	PanelList:AddItem(BeaconsCategory)	      --CATEGORY BEACONS CREATED
-	PanelList:AddItem(UIStyleCategory)	      --CATEGORY UIStyle CREATED
+	PanelList:AddItem(GeneralCategory) --CATEGORY GENERAL CREATED
+	PanelList:AddItem(BeaconsCategory) --CATEGORY BEACONS CREATED
+	PanelList:AddItem(UIStyleCategory) --CATEGORY UIStyle CREATED
 
 end
-concommand.Add("dhradar_menu",dhradar_ShowMenu)
+concommand.Add("dhradar_menu", dhradar_ShowMenu)
 
 function dhradar_ShowExploreHelp()
 	local DermaPanel = vgui.Create("DFrame")
@@ -335,7 +335,7 @@ function dhradar_ShowExploreHelp()
 	local border = 4
 	local W_WIDTH = w - 2 * border
 
-	DermaPanel:SetPos(ScrW()*0.5 - w*0.5 , ScrH()*0.5 - h*0.5)
+	DermaPanel:SetPos(ScrW() * 0.5 - w * 0.5 , ScrH() * 0.5 - h * 0.5)
 	DermaPanel:SetSize(w, h)
 	DermaPanel:SetTitle("DepthHUD Radar : \"Farseer\" feature Help")
 	DermaPanel:SetVisible(true)
