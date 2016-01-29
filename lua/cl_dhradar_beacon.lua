@@ -1,24 +1,24 @@
-////////////////////////////////////////////////
-// -- Depth HUD : Radar                       //
-// by Hurricaaane (Ha3)                       //
-//                                            //
-// http://www.youtube.com/user/Hurricaaane    //
-//--------------------------------------------//
-// The Beacon Module, to register easily      //
-////////////////////////////////////////////////
+------------------------------------------------
+-- -- Depth HUD : Radar                       --
+-- by Hurricaaane (Ha3)                       --
+--                                            --
+-- http://www.youtube.com/user/Hurricaaane    --
+------------------------------------------------
+-- The Beacon Module, to register easily      --
+------------------------------------------------
 
-module( "dhradar", package.seeall )
+module("dhradar", package.seeall)
 
 local Beacons = {}
 local Beacons_names = {}
 
 function Register(name, beacon)
-	if string.find( name , " " ) then return end
-	
+	if string.find(name , " ") then return end
+
 	beacon.Name = beacon.Name or name
 	Beacons[name] = beacon
 	table.insert(Beacons_names, name)
-	
+
 	local cstr = ""
 	if (beacon.DefaultOff or false) then
 		cstr = "0"
