@@ -263,10 +263,10 @@ local function calcCircle()
 	local oscr_ypan = dhradar_dat.STOR_RadarTrashVector_Position.y / (PARAM_SCALEBASE * dhradar_dat.ui_scale * 0.5 * PARAM_HEIGHTDRAW_Step)
 
 	--Positionning data has changed
-	if (dhradar_dat.STOR_lastsize != ui_size)
-	   or (dhradar_dat.STOR_lastdhradar_Pos != dhradar_Pos())
-	   or (dhradar_dat.STOR_lastxrel != ui_xCenter)
-	   or (dhradar_dat.STOR_lastyrel != ui_yCenter)
+	if (dhradar_dat.STOR_lastsize ~= ui_size)
+	   or (dhradar_dat.STOR_lastdhradar_Pos ~= dhradar_Pos())
+	   or (dhradar_dat.STOR_lastxrel ~= ui_xCenter)
+	   or (dhradar_dat.STOR_lastyrel ~= ui_yCenter)
 	   or not dhradar_dat.STOR_circlebuffer[1]
 	   then
 
@@ -283,7 +283,7 @@ local function calcCircle()
 
 
 	--Orienting data has changed
-	elseif (dhradar_dat.STOR_lastorient != math.floor(dhradar_Angles().y)) then
+	elseif (dhradar_dat.STOR_lastorient ~= math.floor(dhradar_Angles().y)) then
 		local orient = math.floor(dhradar_Angles().y) - 90
 
 		for i=1,PARAM_HEIGHTDRAW_CIRCLERES do
@@ -301,23 +301,23 @@ end
 local function dhradar_InitializeRenderTarget()
 	if (dhradar_dat.RT or dhradar_dat.RT_INVALID) then return end
 
-	dhradar_dat.RT = GetRenderTarget("DhradarRT", dhradar_dat.RT_SIZE[1], dhradar_dat.RT_SIZE[2])
+	dhradar_dat.RT = GetRenderTarget("DhradarRT",dhradar_dat.RT_SIZE[1],dhradar_dat.RT_SIZE[2])
 
 	--Disable this function getting called again
 	if (not dhradar_dat.RT) then
 		dhradar_dat.RT_INVALID = true
-		print("Failed to create RT")
 		return
 	end
 
 	/*dhradar_dat.MATERIAL = CreateMaterial("DhradarRT","UnlitGeneric",
+	--[[dhradar_dat.MATERIAL = CreateMaterial("DhradarRT","UnlitGeneric",
 		{
 			["$vertexcolor"] = 1,
 		}
 	)
 	--Tell the material, it's going to use the rendertarget as texture
 	dhradar_dat.MATERIAL:SetMaterialTexture("$basetexture",dhradar_dat.RT)
-	dhradar_dat.MATERIAL_ID = surface.GetTextureID("DhradarRT")*/
+	dhradar_dat.MATERIAL_ID = surface.GetTextureID("DhradarRT")]]
 end
 
 local function dhradar_internalCam2DRenderer()
@@ -372,12 +372,12 @@ local function dhradar_FindHeights()
 	dhradar_dat.RT_SIZESTEP,UNIT,dhradar_dat.CONV_RadarPos,xpan,ypan = calcUnitsReturn()
 
 
-	if (dhradar_dat.CONV_RadarPos != dhradar_dat.STOR_lastdhradar_Pos_magnet) and not CHANGED_STEP then
+	if (dhradar_dat.CONV_RadarPos ~= dhradar_dat.STOR_lastdhradar_Pos_magnet) and not CHANGED_STEP then
 		PARAM_HEIGHTDRAW_Step = PARAM_HEIGHTDRAW_STEP_MAX            --When moving, radar is unprecise
 		dhradar_dat.RT_SIZESTEP,UNIT,dhradar_dat.CONV_RadarPos,xpan,ypan = calcUnitsReturn()
 	end
 
-	if  dhradar_dat.DEBUG_RT or CHANGED_STEP or (dhradar_dat.CONV_RadarPos != dhradar_dat.STOR_lastdhradar_Pos_magnet) then
+	if  dhradar_dat.DEBUG_RT or CHANGED_STEP or (dhradar_dat.CONV_RadarPos ~= dhradar_dat.STOR_lastdhradar_Pos_magnet) then
 		PARAM_HEIGHTDRAW_HasRecalc = true
 
 		dhradar_dat.STOR_lastdhradar_Pos_magnet = dhradar_dat.CONV_RadarPos --STOR IMPORTANT
@@ -435,8 +435,8 @@ local function dhradar_FindHeights()
 			end
 		end
 
-		/*dhradar_dat.STOR_heightmin = minheight
-		dhradar_dat.STOR_heightmax = maxheight*/
+		--[[dhradar_dat.STOR_heightmin = minheight
+		dhradar_dat.STOR_heightmax = maxheight]]
 		dhradar_dat.STOR_heightmin = 0
 		dhradar_dat.STOR_heightmax = 1
 
@@ -483,7 +483,7 @@ local function dhradar_DrawHeights()
 
 	calcCircle()
 
-	if (dhradar_dat.STOR_lastopacity != ui_overallopacity) or (dhradar_dat.STOR_lastheightopacity != ui_heightopacity) then
+	if (dhradar_dat.STOR_lastopacity ~= ui_overallopacity) or (dhradar_dat.STOR_lastheightopacity ~= ui_heightopacity) then
 		dhradar_dat.MATERIAL:SetMaterialFloat("$alpha", ui_overallopacity*ui_heightopacity)
 	end
 
@@ -638,7 +638,7 @@ function dhradar_StringNiceNameTransform(stringInput)
 		elseif (len > 1) then
 			stringOutput = stringOutput .. string.Left(string.upper(part),1) .. string.Right(part,len-1)
 		end
-		if (k != #stringParts) then stringOutput = stringOutput .. " " end
+		if (k ~= #stringParts) then stringOutput = stringOutput .. " " end
 	end
 	return stringOutput
 end
@@ -665,9 +665,9 @@ local function dhradar_FindWalls()
 		PARAM_WALLDRAW_Accum = (PARAM_WALLDRAW_Accum + PARAM_WALLDRAW_ANGLE + 180) % 360 - 180
 		dhradar_dat.STOR_TRASHTABLE_TraceData.endpos   = dhradar_Pos() + Angle(0,PARAM_WALLDRAW_Accum,0):Forward() * (PARAM_SCALEBASE * dhradar_dat.ui_scale) * 2
 		dhradar_dat.STOR_TRASHTABLE_TraceRes = util.TraceLine(dhradar_dat.STOR_TRASHTABLE_TraceData)
-		/*local traceNormalNoZ = trace.HitNormal
+		--[[local traceNormalNoZ = trace.HitNormal
 		traceNormalNoZ.z = 0
-		traceNormalNoZ = traceNormalNoZ:Normalize()*/
+		traceNormalNoZ = traceNormalNoZ:Normalize()]]
 
 		if dhradar_dat.STOR_TRASHTABLE_TraceRes.Hit and (dhradar_dat.STOR_TRASHTABLE_TraceRes.HitNormal.z < 0.9) and (dhradar_dat.STOR_TRASHTABLE_TraceRes.HitNormal.z > -0.1) then
 			local previsnil = (#dhradar_dat.STOR_walldata > 0) and (dhradar_dat.STOR_walldata[#dhradar_dat.STOR_walldata][1] == nil)
@@ -675,7 +675,7 @@ local function dhradar_FindWalls()
 				if (#dhradar_dat.STOR_walldata >= PARAM_WALLDRAW_MAXSTOR) then
 					table.remove(dhradar_dat.STOR_walldata,1)
 				end
-				/*
+				--[[
 				if (#dhradar_dat.STOR_walldata > 1) and (not previsnil) and (not dhradar_dat.STOR_walldata[#dhradar_dat.STOR_walldata][2]) then
 					local vect1 = dhradar_dat.STOR_walldata[#dhradar_dat.STOR_walldata-1][1]:Normalize()
 					local vect2 = dhradar_dat.STOR_walldata[#dhradar_dat.STOR_walldata][1]:Normalize()
@@ -683,7 +683,7 @@ local function dhradar_FindWalls()
 						table.remove(dhradar_dat.STOR_walldata,#dhradar_dat.STOR_walldata)
 					end
 				end
-				*/
+				]]
 				table.insert(dhradar_dat.STOR_walldata,{dhradar_dat.STOR_TRASHTABLE_TraceRes.HitPos,previsnil})
 			else
 				if (#dhradar_dat.STOR_walldata >= PARAM_WALLDRAW_MAXSTOR) then
@@ -711,7 +711,7 @@ local function dhradar_DrawWalls()
 	local angleEn,distEn,isupEn = 0
 
 	for k = 1,#dhradar_dat.STOR_walldata-1 do
-		if (dhradar_dat.STOR_walldata[k][1] != nil) and (dhradar_dat.STOR_walldata[k+1][1] != nil) then
+		if (dhradar_dat.STOR_walldata[k][1] ~= nil) and (dhradar_dat.STOR_walldata[k+1][1] ~= nil) then
 			angleSt,distSt,isupSt = dhradar_CalcGetPolar(dhradar_dat.STOR_walldata[k][1] )
 			if (distSt < 1) then
 				angleEn,distEn,isupEn = dhradar_CalcGetPolar(dhradar_dat.STOR_walldata[k+1][1])
@@ -759,14 +759,14 @@ local function dhradar_FindEntity()
 	dhradar_dat.FINDER_AllFoundEntsCount = #dhradar_dat.FINDER_AllFoundEnts
 	--print("found "..dhradar_dat.FINDER_AllFoundEntsCount.." entities ! ".. os.time())
 	for k,name in pairs(dhradar_dat.STOR_BeaconNamesTable) do
-		if (#dhradar_dat.FINDER_AllFoundEnts != dhradar_dat.FINDER_AllFoundEntsCount) then
+		if (#dhradar_dat.FINDER_AllFoundEnts ~= dhradar_dat.FINDER_AllFoundEntsCount) then
 			if (k > 1) then print("dhradar ERROR : The given entities were altered on beacon ".. name .. " !") end
 			dhradar_dat.FINDER_AllFoundEntsCount = #dhradar_dat.FINDER_AllFoundEnts
 		end
 		local BEACON = dhradar.Get(name)
 		if (BEACON and (GetConVarNumber("dhradar_beacon_" .. name) > 0) and BEACON.FindFunction) then
 			dhradar_dat.STOR_TRASHTABLE_FindFunction = {}
-			dhradar_dat.FINDER_FoundTable[name] = BEACON:FindFunction(dhradar_dat.FINDER_AllFoundEnts /*table.Copy(entities)*/, dhradar_dat.STOR_TRASHTABLE_FindFunction)
+			dhradar_dat.FINDER_FoundTable[name] = BEACON:FindFunction(dhradar_dat.FINDER_AllFoundEnts --[[table.Copy(entities)]], dhradar_dat.STOR_TRASHTABLE_FindFunction)
 		else
 			dhradar_dat.FINDER_FoundTable[name] = {}
 		end
@@ -788,7 +788,7 @@ function dhradar_GetPlayerAlternateColor(ply)
 		local h   = ply:UserID()^5 % 360
 		local s   = 0.1 + 0.5 * (ply:UserID()^3 % 27) / 27
 		local v   = 1.0
-		/*local hi = math.floor(h / 60)%6
+		--[[local hi = math.floor(h / 60)%6
 		local f  = (h / 60) - math.floor(h / 60)
 		local p  = v*(1-s)
 		local q  = v*(1-f*s)
@@ -805,7 +805,7 @@ function dhradar_GetPlayerAlternateColor(ply)
 		elseif (hi == 3) then ply.dhradar_communitycolor = Color(p,q,v)
 		elseif (hi == 4) then ply.dhradar_communitycolor = Color(t,p,v)
 		else                  ply.dhradar_communitycolor = Color(v,p,q)
-		end*/
+		end]]
 		ply.dhradar_communitycolor = HSVToColor(h, s, v)
 		spriteColor = ply.dhradar_communitycolor
 	else
@@ -851,7 +851,7 @@ local function dhradar_DrawPlayers()
 				dhradar_DrawPin(sprite, angle, dist, dhradar_dat.ui_shadowColor , 1.25*spriteScale, spriteAngle)
 				dhradar_DrawPin(sprite, angle, dist, spriteColor                , 1.00*spriteScale, spriteAngle)
 
-				if ply:Alive() and ply != LocalPlayer() and dist < 1 then
+				if ply:Alive() and ply ~= LocalPlayer() and dist < 1 then
 					--Cone Color
 					local conecolor = dhradar_dat.STOR_RadarTrashColor
 					local coneAngle = ply:EyeAngles().y - dhradar_Angles().y + 90
@@ -862,7 +862,7 @@ local function dhradar_DrawPlayers()
 					dhradar_DrawPin(dhradar_tex.tex_pl_cone, angle, dist, conecolor , 6, coneAngle)
 				end
 
-				if  (GetConVarNumber("dhradar_ui_showplayernames") > 0) and (ply != LocalPlayer()) then
+				if  (GetConVarNumber("dhradar_ui_showplayernames") > 0) and (ply ~= LocalPlayer()) then
 					dhradar_DrawText(ply:Name(), angle, dist + 0.10, spriteColor, true)
 				end
 			end
