@@ -1,16 +1,18 @@
 "AddonInfo"
 {
-	"name"		"Depth HUD Radar GIT"
-	"version"	"GIT"
-	"up_date"	"29th January 2016"
+	"name"				"Depth HUD Radar GIT"
+	"version"			"GIT"
+	"up_date"			"29th January 2016"
+
 	"author_name"	"Hurricaaane"
 	"author_url"	"http://www.youtube.com/user/Hurricaaane"
 
-	"info"		"A MGS-GTA type Radar."
+	"info"				"A MGS-GTA type Radar."
 
 	"ignore"
 	{
 		"*.git"
 		"*.DS_STORE"
+		"*._lua"
 	}
 }
