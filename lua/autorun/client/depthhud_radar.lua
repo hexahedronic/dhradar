@@ -10,7 +10,7 @@
 CreateClientConVar("dhradar_enable", "1", true, false)
 CreateClientConVar("dhradar_range", "4096", true, false)
 CreateClientConVar("dhradar_showwalls", "0", true, false)
-CreateClientConVar("dhradar_showheights", "0", true, false)
+CreateClientConVar("dhradar_showheights", "1", true, false)
 CreateClientConVar("dhradar_forwardexplore", "0", true, false)
 CreateClientConVar("dhradar_scaleexplore", "0", true, false)
 
@@ -24,8 +24,6 @@ CreateClientConVar("dhradar_ui_heightopacity", "1.0", true, false)
 CreateClientConVar("dhradar_ui_showplayernames", "1", true, false)
 CreateClientConVar("dhradar_ui_showplayeriffriend", "0", true, false)
 
---dhradar_dat.ui_ringcolor   = Color(192,230,255,255)
---dhradar_dat.ui_circlecolor = Color(32,64,94,128)
 CreateClientConVar("dhradar_col_ring_r",   "192", true, false)
 CreateClientConVar("dhradar_col_ring_g",   "230", true, false)
 CreateClientConVar("dhradar_col_ring_b",   "255", true, false)
@@ -45,13 +43,14 @@ dhradar_dat 																= {}
 dhradar_dat._referenceRadarAngles 					= nil
 dhradar_dat._referenceRadarPos    					= nil
 
+dhradar_dat.MATERIAL 												= Material("depthhud/X_RadarRT")
+dhradar_dat.MATERIAL_ID 										= surface.GetTextureID("depthhud/X_RadarRT")
+
 dhradar_dat.DEBUG_RT 												= false
 
 dhradar_dat.RT 															= nil
 dhradar_dat.RT_INVALID 											= nil
 dhradar_dat.RT_SIZE 												= {128, 128} -- in the dhradar_dat.RT file
-dhradar_dat.MATERIAL 												= Material("depthhud/X_RadarRT")
-dhradar_dat.MATERIAL_ID 										= surface.GetTextureID("depthhud/X_RadarRT")
 dhradar_dat.RT_SIZESTEP 										= {}
 
 dhradar_dat.STOR_walldata 									= {}
@@ -67,38 +66,38 @@ dhradar_dat.STOR_lastorient 								= -181
 dhradar_dat.STOR_lastopacity 								= -1
 dhradar_dat.STOR_lastheightopacity 					= -1
 
-dhradar_dat.STOR_lastdhradar_Pos 						= Vector(0,0,0)
-dhradar_dat.STOR_lastdhradar_Pos_magnet 		= Vector(0,0,0)
-dhradar_dat.CONV_RadarPos 									= Vector(0,0,0)
+dhradar_dat.STOR_lastdhradar_Pos 						= Vector(0, 0, 0)
+dhradar_dat.STOR_lastdhradar_Pos_magnet 		= Vector(0, 0, 0)
+dhradar_dat.CONV_RadarPos 									= Vector(0, 0, 0)
 
 dhradar_dat.STOR_circlebuffer 							= {}
 
 dhradar_dat.STOR_TRASHTABLE_TraceData 			= {}
 dhradar_dat.STOR_TRASHTABLE_TraceRes 				= {}
 dhradar_dat.STOR_TRASHTABLE_FindFunction 		= {}
-dhradar_dat.STOR_RadarTrashColor 						= Color(0,255,255,255)
-dhradar_dat.STOR_RadarTrashVector_Position 	= Vector(0,0,0)
+dhradar_dat.STOR_RadarTrashColor 						= Color(0, 255, 255, 255)
+dhradar_dat.STOR_RadarTrashVector_Position 	= Vector(0, 0, 0)
 
 dhradar_dat.STOR_BeaconNamesTable 					= {}
 
-dhradar_dat.ui_ringcolor   									= Color(192,230,255,255)
-dhradar_dat.ui_circlecolor 									= Color(32,64,94,128)
-dhradar_dat.ui_shadowColor 									= Color(0,0,0,128)
-dhradar_dat.ui_noColor 											= Color(255,255,255)
+dhradar_dat.ui_ringcolor   									= Color(192, 230, 255, 255)
+dhradar_dat.ui_circlecolor 									= Color(32, 64, 94, 128)
+dhradar_dat.ui_shadowColor 									= Color(0, 0, 0, 128)
+dhradar_dat.ui_noColor 											= Color(255, 255, 255)
 
 dhradar_dat.ui_rt_floorcolor  							= dhradar_dat.ui_ringcolor
 dhradar_dat.ui_rt_unwalkcolor 							= dhradar_dat.ui_circlecolor
 
-dhradar_dat.ui_forwardexplore 							= { 0, 0, 0.1 }
+dhradar_dat.ui_forwardexplore 							= {0, 0, 0.1}
 dhradar_dat.ui_forward_reladd 							= 0.1
-dhradar_dat.ui_upexplore 										= { 0, 0, 0.1 }
+dhradar_dat.ui_upexplore 										= {0, 0, 0.1}
 dhradar_dat.ui_up_reladd 										= 0.05
 dhradar_dat.ui_forwardreload    						= false
 dhradar_dat.ui_forwardpressed   						= false
 dhradar_dat.ui_forwardlastoccur 						= 0
 dhradar_dat.ui_forward_delay    						= 1.0
 
-dhradar_dat.ui_scaleexplore 								= { 0, 0, 0.1 }
+dhradar_dat.ui_scaleexplore 								= {0, 0, 0.1}
 dhradar_dat.ui_scale_reladd 								= 0.1
 
 dhradar_dat.ui_forwardlastoccur 						= 0
@@ -520,7 +519,7 @@ function dhradar_DrawText(text, angle, distFromCenter, textColor, drawShadow)
 	local xPos = ui_xCenter + math.cos(rad) * (ui_size * 0.5) * distFromCenter
 	local yPos = ui_yCenter + math.sin(rad) * (ui_size * 0.5) * distFromCenter
 
-	surface.SetFont("Default")
+	surface.SetFont("DermaDefaultBold")
 	local wB, hB = surface.GetTextSize(text)
 
 	if drawShadow then
