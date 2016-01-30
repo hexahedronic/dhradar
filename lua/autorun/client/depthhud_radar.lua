@@ -309,7 +309,6 @@ local function dhradar_InitializeRenderTarget()
 		return
 	end
 
-	/*dhradar_dat.MATERIAL = CreateMaterial("DhradarRT","UnlitGeneric",
 	--[[dhradar_dat.MATERIAL = CreateMaterial("DhradarRT","UnlitGeneric",
 		{
 			["$vertexcolor"] = 1,
