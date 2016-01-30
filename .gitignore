@@ -28,9 +28,6 @@ $RECYCLE.BIN/
 .AppleDouble
 .LSOverride
 
-# Thumbnails
-._*
-
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
 .fseventsd
@@ -42,6 +39,7 @@ $RECYCLE.BIN/
 # Directories potentially created on remote AFP share
 .AppleDB
 .AppleDesktop
+.apdisk
+
 Network Trash Folder
 Temporary Items
-.apdisk
