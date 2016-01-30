@@ -55,12 +55,12 @@ function dhradar_ShowMenu()
 
 	-- CATEGORY : GENERAL
 	local GeneralCategory = vgui.Create("DCollapsibleCategory", PanelList)
-	GeneralCategory:SetSize(W_WIDTH, 50)
+	GeneralCategory:SetSize(W_WIDTH, 250)
 	GeneralCategory:SetExpanded(1) -- Expanded when popped up
 	GeneralCategory:SetLabel("General")
 
 	local GeneralCatList = vgui.Create("DPanelList")
-	GeneralCatList:SetSize(W_WIDTH, 128)
+	GeneralCatList:SetSize(W_WIDTH, 250)
 	GeneralCatList:EnableHorizontal(false)
 	GeneralCatList:EnableVerticalScrollbar(false)
 
@@ -173,19 +173,19 @@ function dhradar_ShowMenu()
 
 	-- CATEGORY : BEACONS
 	local BeaconsCategory = vgui.Create("DCollapsibleCategory", PanelList)
-	BeaconsCategory:SetSize(W_WIDTH, 50)
+	BeaconsCategory:SetSize(W_WIDTH, 250)
 	BeaconsCategory:SetExpanded(0) -- Expanded when popped up
 	BeaconsCategory:SetLabel("Beacons")
 
 	local BeaconsCatList = vgui.Create("DPanelList")
-	BeaconsCatList:SetSize(W_WIDTH, 170 + 70)
+	BeaconsCatList:SetSize(W_WIDTH, 250)
 	BeaconsCatList:EnableHorizontal(false)
 	BeaconsCatList:EnableVerticalScrollbar(false)
 
 
 	-- MAIN BEACON LIST
 	local BeaconsList = vgui.Create("DPanelList")
-	BeaconsList:SetSize(W_WIDTH, 110 + 70)
+	BeaconsList:SetSize(W_WIDTH, 250)
 	BeaconsList:SetSpacing(5)
 	BeaconsList:EnableHorizontal(false)
 	BeaconsList:EnableVerticalScrollbar(true)
@@ -229,12 +229,12 @@ function dhradar_ShowMenu()
 
 	------ CATEGORY : UIStyle
 	local UIStyleCategory = vgui.Create("DCollapsibleCategory", PanelList)
-	UIStyleCategory:SetSize(W_WIDTH, 50)
+	UIStyleCategory:SetSize(W_WIDTH, 250)
 	UIStyleCategory:SetExpanded(0) -- Expanded when popped up
 	UIStyleCategory:SetLabel("UI Design")
 
 	local UIStyleCatList = vgui.Create("DPanelList")
-	UIStyleCatList:SetSize(W_WIDTH, 128)
+	UIStyleCatList:SetSize(W_WIDTH, 250)
 	UIStyleCatList:EnableHorizontal(false)
 	UIStyleCatList:EnableVerticalScrollbar(false)
 
